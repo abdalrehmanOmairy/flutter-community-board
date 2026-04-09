@@ -1,0 +1,90 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// dart format width=80
+
+// **************************************************************************
+// InjectableConfigGenerator
+// **************************************************************************
+
+// ignore_for_file: type=lint
+// coverage:ignore-file
+
+// ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:data_supabase/auth.dart' as _i561;
+import 'package:domain/auth.dart' as _i378;
+import 'package:get_it/get_it.dart' as _i174;
+import 'package:go_router/go_router.dart' as _i583;
+import 'package:injectable/injectable.dart' as _i526;
+import 'package:supabase_flutter/supabase_flutter.dart' as _i454;
+
+import '../../features/auth/presentation/blocs/authentication/authentication_bloc.dart'
+    as _i652;
+import '../../features/auth/presentation/blocs/login/login_bloc.dart' as _i1018;
+import '../../features/auth/presentation/blocs/signup/signup_bloc.dart' as _i41;
+import 'register_module.dart' as _i291;
+
+extension GetItInjectableX on _i174.GetIt {
+  // initializes the registration of main-scope dependencies inside of GetIt
+  _i174.GetIt init({
+    String? environment,
+    _i526.EnvironmentFilter? environmentFilter,
+  }) {
+    final gh = _i526.GetItHelper(this, environment, environmentFilter);
+    final registerModule = _$RegisterModule(this);
+    gh.singleton<_i454.SupabaseClient>(() => registerModule.supabaseClient);
+    gh.lazySingleton<_i561.AuthRemoteDataSource>(
+      () => registerModule.authRemoteDataSource,
+    );
+    gh.lazySingleton<_i378.AuthRepositories>(
+      () => registerModule.authRepository,
+    );
+    gh.factory<_i378.SignupUseCase>(() => registerModule.signupUseCase);
+    gh.factory<_i378.LoginUseCase>(() => registerModule.loginUseCase);
+    gh.factory<_i378.LogoutUseCase>(() => registerModule.logoutUseCase);
+    gh.factory<_i41.SignupBloc>(
+      () => _i41.SignupBloc(signupUseCase: gh<_i378.SignupUseCase>()),
+    );
+    gh.singleton<_i652.AuthenticationBloc>(
+      () => _i652.AuthenticationBloc(
+        authRepositories: gh<_i378.AuthRepositories>(),
+        logoutUseCase: gh<_i378.LogoutUseCase>(),
+      ),
+      dispose: (i) => i.close(),
+    );
+    gh.singleton<_i583.GoRouter>(
+      () => registerModule.router(gh<_i652.AuthenticationBloc>()),
+    );
+    gh.factory<_i1018.LoginBloc>(
+      () => _i1018.LoginBloc(loginUseCase: gh<_i378.LoginUseCase>()),
+    );
+    return this;
+  }
+}
+
+class _$RegisterModule extends _i291.RegisterModule {
+  _$RegisterModule(this._getIt);
+
+  final _i174.GetIt _getIt;
+
+  @override
+  _i561.SupabaseAuthRemoteDataSource get authRemoteDataSource =>
+      _i561.SupabaseAuthRemoteDataSource(
+        supabaseClient: _getIt<_i454.SupabaseClient>(),
+      );
+
+  @override
+  _i561.AuthRepositoryImpl get authRepository => _i561.AuthRepositoryImpl(
+    authDataSource: _getIt<_i561.AuthRemoteDataSource>(),
+  );
+
+  @override
+  _i378.SignupUseCase get signupUseCase =>
+      _i378.SignupUseCase(authRepositories: _getIt<_i378.AuthRepositories>());
+
+  @override
+  _i378.LoginUseCase get loginUseCase =>
+      _i378.LoginUseCase(authRepositories: _getIt<_i378.AuthRepositories>());
+
+  @override
+  _i378.LogoutUseCase get logoutUseCase =>
+      _i378.LogoutUseCase(authRepositories: _getIt<_i378.AuthRepositories>());
+}
