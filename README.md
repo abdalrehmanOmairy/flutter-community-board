@@ -1,4 +1,4 @@
-# 📱 Flutter Community Board
+# 📱 Scalable Flutter App: Community Board (Monorepo)
 
 ![Flutter](https://img.shields.io/badge/Flutter-3.x-blue)
 ![Dart](https://img.shields.io/badge/Dart-2.x-blue)
@@ -18,12 +18,14 @@ A scalable Flutter application built using Clean Architecture, BLoC, and Supabas
 - ⚡ Reactive state management using BLoC
 - ☁️ Supabase backend integration
 - 🧱 Clean and scalable architecture
-- 🧪 Testable codebase
 
 ---
 
 
 ## 🏗️ Project Structure
+
+This project follows the principles of **Clean Architecture** to separate concerns.
+
 
 
 ```
@@ -66,32 +68,16 @@ lib/
 ```
 
 
-## 🧠 Architecture
-
-This project follows Clean Architecture:
-
-### 📱 Presentation Layer
-- UI (Screens / Widgets)
-- BLoC (State Management)
-
-### ⚙️ Domain Layer
-- Entities
-- Use Cases
-- Repository Interfaces
-
-### 💾 Data Layer
-- Models
-- Repository Implementations
-- Remote Data Sources (Supabase)
-- Local Data Sources (Caching / Storage)
-
 ---
 
-## 🔄 State Management
+### Packages (Shared)
+The code in the `packages/` folder is pure Dart and handles the data layer, and can be reused with any state management library.
 
-The app uses BLoC (Business Logic Component) for predictable and scalable state management.
-
+- **[core](packages/core)**: Contains common utilities, error handling (Failures/Exceptions), and common UI components used across the app.
+- **[domain](packages/domain)**: **The core of the app (Pure Dart).** Contains entities, use cases, and repository interfaces, with no external dependencies.
+- **[data_supabase](packages/data_supabase)**: Implements the `domain` layer interfaces, and contains data sources and models that use Supabase as a backend.
 ---
+
 
 ## 🛠️ Tech Stack
 
